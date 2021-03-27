@@ -25,11 +25,12 @@ public class Shader {
     public Shader() {
         super();
         this.name = null;
+        this.fSource = null;
+        this.vSource = null;
     }
 
 
-    public Shader(long id, String name, VertexSource vSource, FragmentSource fSource) {
-        this.id = id;
+    public Shader(String name, VertexSource vSource, FragmentSource fSource) {
         this.name = name;
         this.vSource = vSource;
         this.fSource = fSource;

@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fi.hh.swd20.shaderlib.model.FragmentRepository;
+import fi.hh.swd20.shaderlib.model.Shader;
 import fi.hh.swd20.shaderlib.model.ShaderRepository;
 import fi.hh.swd20.shaderlib.model.VertexRepository;
 import fi.hh.swd20.shaderlib.model.VertexSource;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class ShaderController {
@@ -28,5 +31,9 @@ public class ShaderController {
         return (List<VertexSource>) vertexRepository.findAll();
     }
 
+    @GetMapping("/shaders")
+    public List<Shader> shaderList() {
+        return (List<Shader>) shaderRepository.findAll();
+    }
 
 }
