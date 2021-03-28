@@ -13,7 +13,7 @@ const EditorComponent = (props) => {
     }, [])
 
     return (
-        <div>
+        <div style={{height: '400px', marginBottom: '40px'}}>
             <h2 style={{ textAlign: 'center' }}>{type}</h2>
             <CodeMirror
                 value={source}

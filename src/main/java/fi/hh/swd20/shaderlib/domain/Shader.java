@@ -1,4 +1,4 @@
-package fi.hh.swd20.shaderlib.model;
+package fi.hh.swd20.shaderlib.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package fi.hh.swd20.shaderlib.model;
+package fi.hh.swd20.shaderlib.domain;
 
 import org.springframework.data.repository.CrudRepository;
 

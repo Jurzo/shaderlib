@@ -1,8 +1,9 @@
-package fi.hh.swd20.shaderlib.model;
+package fi.hh.swd20.shaderlib.domain;
 
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,21 +13,21 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class VertexSource {
+public class FragmentSource {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(length = 2000)
     private String source;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vSource")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fSource")
     private List<Shader> shaders;
 
-
-    public VertexSource() {
+    public FragmentSource() {
         this.source = "";
     }
 
-    public VertexSource(String source) {
+    public FragmentSource(String source) {
         this.source = source;
     }
 
@@ -58,5 +59,5 @@ public class VertexSource {
     public String toString() {
         return this.id + "\n" + this.source;
     }
-
+    
 }

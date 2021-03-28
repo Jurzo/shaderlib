@@ -9,16 +9,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
+
+import fi.hh.swd20.shaderlib.domain.FragmentRepository;
+import fi.hh.swd20.shaderlib.domain.FragmentSource;
+import fi.hh.swd20.shaderlib.domain.Shader;
+import fi.hh.swd20.shaderlib.domain.ShaderRepository;
+import fi.hh.swd20.shaderlib.domain.User;
+import fi.hh.swd20.shaderlib.domain.UserRepository;
+import fi.hh.swd20.shaderlib.domain.VertexRepository;
+import fi.hh.swd20.shaderlib.domain.VertexSource;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-
-import fi.hh.swd20.shaderlib.model.FragmentRepository;
-import fi.hh.swd20.shaderlib.model.FragmentSource;
-import fi.hh.swd20.shaderlib.model.Shader;
-import fi.hh.swd20.shaderlib.model.ShaderRepository;
-import fi.hh.swd20.shaderlib.model.VertexRepository;
-import fi.hh.swd20.shaderlib.model.VertexSource;
 
 @SpringBootApplication
 public class ShaderlibApplication {
@@ -31,8 +34,15 @@ public class ShaderlibApplication {
 
 	@Bean
 	public CommandLineRunner demo(VertexRepository vertexRepository, FragmentRepository fragmentRepository,
-			ShaderRepository shaderRepository) {
+			ShaderRepository shaderRepository, UserRepository users) {
 		return (args) -> {
+
+			// admin:admin, user:user
+			log.info("Create some users to database");
+			User user = new User("user", "user@domain", "$2b$10$f6ug1gn42FXc.S4MYNSxBO2o2HjMw4YD51408DxxQ2bferldEIxy6", "USER");
+			User admin = new User("admin", "admin@domain", "$2b$10$9so7Ic6Z5Nn1yPrMPeU5humBW6PMxJG573EgG9zHi7vi.KQbDPjAO", "ADMIN");
+			users.save(user);
+			users.save(admin);
 
 			VertexSource vert1 = new VertexSource(
 					"void main(){ \n" + 

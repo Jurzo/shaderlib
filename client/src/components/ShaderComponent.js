@@ -25,7 +25,7 @@ const ShaderComponent = (props) => {
     
     useFrame(() => {
         mesh.current.material.uniforms.u_time.value += 0.01;
-    })
+    });
 
     return (
         <mesh
