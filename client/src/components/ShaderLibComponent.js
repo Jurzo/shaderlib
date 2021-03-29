@@ -1,24 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import CanvasComponent from './CanvasComponent';
 import EditorComponent from './EditorComponent';
 
 const ShaderLibComponent = (props) => {
+    const [vertex, setVertex] = useState("");
+    const [fragment, setFragment] = useState("");
+    const [name, setName] = useState("");
+    const params = useParams();
+
+    useEffect(() => {
+        for (const shader of props.shaderList) {
+            if (shader.id === parseInt(params.id)) {
+                setVertex(shader.vsource.source);
+                setFragment(shader.fsource.source);
+                setName(shader.name);
+            }
+        }
+    }, []);
+
     return (
-        <div style={{width: props.resolution.width, margin:'auto'}}>
-            <h1 style={{textAlign:'center'}}>{props.shader.name}</h1>
+        <div style={{width: props.resolution.width + 'px', margin:'auto'}}>
+            <h1 style={{textAlign:'center'}}>{name}</h1>
             <CanvasComponent
                 resolution={props.resolution}
-                vertex={props.shader.vsource.source}
-                fragment={props.shader.fsource.source}
+                vertex={vertex}
+                fragment={fragment}
             />
             <EditorComponent
-                source={props.shader.fsource.source}
+                source={fragment}
+                setSource={setFragment}
                 type={"fragment shader"}
             />
-            {/* <EditorComponent
-                source={props.shader.vsource.source}
+            <EditorComponent
+                source={vertex}
+                setSource={setVertex}
                 type={"vertex shader"}
-            /> */}
+            />
         </div>
     );
 

@@ -8,7 +8,7 @@ const CanvasComponent = (props) => {
         <div style={{...style, cursor: 'pointer'}}>
             <Canvas resize={{scroll: false}}
             onClick={() => {
-                window.location.href='http://google.com';
+                window.location.href='http://localhost:3000/shader/' + props.id;
             }}>
                 <ShaderComponent resolution = {props.resolution} vertex = {props.vertex} fragment = {props.fragment}/>
             </Canvas>

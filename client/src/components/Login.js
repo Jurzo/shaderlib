@@ -30,7 +30,6 @@ class Login extends React.Component {
             .executeLogin(username, password)
             .then(response => {
                 AuthenticationService.registerSuccessfulLogin(username, password);
-                console.log(response.data);
                 AuthenticationService.setAuthorities(response.data.authorities);
                 self.setState({
                     auth: true

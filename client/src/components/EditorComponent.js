@@ -8,21 +8,23 @@ const EditorComponent = (props) => {
     const [type, setType] = useState("None");
 
     useEffect(() => {
-        setSource(props.source);
         setType(props.type);
-    }, [])
+    }, []);
 
     return (
         <div style={{height: '400px', marginBottom: '40px'}}>
             <h2 style={{ textAlign: 'center' }}>{type}</h2>
             <CodeMirror
-                value={source}
+                value={props.source}
+                onChange={(editor)=>setSource(editor.getValue())}
                 options={{
                     theme: 'monokai',
                     keyMap: 'sublime',
                     mode: 'c++',
                 }}
             />
+            <button style={{float:'left'}} onClick={() => props.setSource(source)}>update</button>
+            <button style={{float:'right'}} onClick={() => props.setSource(source)}>save</button>
         </div>
     );
 

@@ -11,6 +11,7 @@ const ShaderList = (props) => {
                         resolution={size}
                         vertex={shader.vsource.source}
                         fragment={shader.fsource.source}
+                        id={shader.id}
                     />
                 </div>
             )}

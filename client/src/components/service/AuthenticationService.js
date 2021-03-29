@@ -25,7 +25,6 @@ class AuthenticationService {
     }
 
     setAuthorities(authorities) {
-        console.log(authorities);
         if (authorities.includes("USER")) {
             sessionStorage.setItem(USER, true)
         }
@@ -85,7 +84,6 @@ class AuthenticationService {
 
     isUserLoggedIn() {
         let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
-        console.log(user);
         if (user === null) {
             return false
         } else {
@@ -100,6 +98,19 @@ class AuthenticationService {
         } else {
             return user
         }
+    }
+
+    reloadInterceptors() {
+        const username = this.getAuth1();
+        const password = this.getAuth2();
+        this.executeLogin(username, password)
+            .then(response => {
+                this.registerSuccessfulLogin(username, password);
+                this.setAuthorities(response.data.authorities);
+            })
+            .catch(error => {
+                console.log(error)
+            });
     }
 
     setupAxiosInterceptors(token) {

@@ -30,6 +30,9 @@ class App extends Component {
     const response = await fetch('http://localhost:8080/shaders');
     const body = await response.json();
     this.setState({ shaderList: body, isLoading: false });
+    if (AuthenticationService.isUserLoggedIn()) {
+      AuthenticationService.reloadInterceptors();
+    }
   }
 
   render() {
@@ -41,28 +44,28 @@ class App extends Component {
     }
 
     const logout = () => {
-      if (!AuthenticationService.isUserLoggedIn()) {
-        return;
+      if (AuthenticationService.isUserLoggedIn()) {
+        let postData = {
+          requestCode: 0
+        };
+
+        let axiosConfig = AuthenticationService.getAxiosConfig();
+        console.log(axiosConfig);
+
+        const url = API_URL + '/user/signout/';
+
+        axios.post(url,
+          postData,
+          axiosConfig
+        )
+          .then(response => {
+            AuthenticationService.logout();
+            refreshPage();
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
-      let postData = {
-        requestCode: 0
-      };
-
-      let axiosConfig = AuthenticationService.getAxiosConfig();
-
-      const url = API_URL + '/user/signout/';
-
-      axios.post(url,
-        postData,
-        axiosConfig
-      )
-        .then(response => {
-          AuthenticationService.logout();
-          refreshPage();
-        })
-        .catch(error => {
-          console.log(error);
-        });
     }
 
     return (
@@ -74,11 +77,15 @@ class App extends Component {
               pathname: 'login',
               toggle: refreshPage
             }}><button>login</button></Link>}
+
+          <Route path="/login" component={Login} />
           <Route
             exact path="/"
             render={(props) => <ShaderList shaderList={shaderList} />}
           />
-          <Route path="/login" component={Login} />
+          <Route
+          path="/shader/:id"
+          render={(props) => <ShaderLibComponent shaderList={shaderList} resolution={{width:1000, height:1000}} />} />
         </Router>
       </div>
     );
