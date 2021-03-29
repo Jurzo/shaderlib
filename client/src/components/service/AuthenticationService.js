@@ -24,6 +24,15 @@ class AuthenticationService {
         )
     }
 
+    async postData(data, dest) {
+        const response = axios.post('http://localhost:8080' + '/post/' + dest,
+            data, this.getAxiosConfig())
+            .catch(error => {
+              console.log(error);
+            });
+        return response;
+    }
+
     setAuthorities(authorities) {
         if (authorities.includes("USER")) {
             sessionStorage.setItem(USER, true)

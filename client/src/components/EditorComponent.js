@@ -24,7 +24,6 @@ const EditorComponent = (props) => {
                 }}
             />
             <button style={{float:'left'}} onClick={() => props.setSource(source)}>update</button>
-            <button style={{float:'right'}} onClick={() => props.setSource(source)}>save</button>
         </div>
     );
 

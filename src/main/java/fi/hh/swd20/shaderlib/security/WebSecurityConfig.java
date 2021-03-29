@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .authorizeRequests()
         .antMatchers(HttpMethod.GET, "/vertexshaders", "/shaders", "/api/**").permitAll()
-        .antMatchers(HttpMethod.POST, "/login", "/api/**").authenticated()
+        .antMatchers(HttpMethod.POST, "/login", "/api/**", "/post/**").authenticated()
         .antMatchers(HttpMethod.OPTIONS).permitAll()
         .anyRequest().authenticated()
         .and()
