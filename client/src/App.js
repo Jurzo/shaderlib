@@ -37,7 +37,7 @@ class App extends Component {
 
   render() {
     const refreshPage = this.refreshPage;
-    var { isLoading, shaderList } = this.state;
+    let { isLoading, shaderList } = this.state;
 
     if (isLoading) {
       return <p>Loading...</p>
@@ -45,11 +45,11 @@ class App extends Component {
 
     const logout = () => {
       if (AuthenticationService.isUserLoggedIn()) {
-        let postData = {
+        const postData = {
           requestCode: 0
         };
 
-        let axiosConfig = AuthenticationService.getAxiosConfig();
+        const axiosConfig = AuthenticationService.getAxiosConfig();
         console.log(axiosConfig);
 
         const url = API_URL + '/user/signout/';
@@ -69,24 +69,31 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        <Router>
-          {AuthenticationService.isUserLoggedIn()
-            ? <button onClick={logout} >logout</button>
-            : <Link to={{
-              pathname: 'login',
-              toggle: refreshPage
-            }}><button>login</button></Link>}
 
-          <Route path="/login" component={Login} />
-          <Route
-            exact path="/"
-            render={(props) => <ShaderList shaderList={shaderList} />}
-          />
-          <Route
-          path="/shader/:id"
-          render={(props) => <ShaderLibComponent shaderList={shaderList} resolution={{width:1000, height:1000}} />} />
+      <div class="parent">
+        <Router>
+          <div class="div1">
+            <nav className="navbar">
+              {AuthenticationService.isUserLoggedIn()
+                ? <button className="myButton" onClick={logout} >logout</button>
+                : <Link to={{
+                  pathname: '/login',
+                  toggle: refreshPage
+                }}><button className="myButton">login</button></Link>}
+            </nav>
+          </div>
+          <div class="div2">
+            <Route path="/login" component={Login} />
+            <Route
+              exact path="/"
+              render={(props) => <ShaderList shaderList={shaderList} />}
+            />
+            <Route
+              path="/shader/:id"
+              render={(props) => <ShaderLibComponent shaderList={shaderList} resolution={{ width: 1000, height: 1000 }} />} />
+          </div>
         </Router>
+
       </div>
     );
   }

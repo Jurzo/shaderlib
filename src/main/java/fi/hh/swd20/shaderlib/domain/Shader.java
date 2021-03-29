@@ -6,19 +6,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Shader {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private long id;
+
+    @Size(min=2, max=30)
+    @NotNull
     private String name;
+
     @ManyToOne
     @JoinColumn(name = "vertexId")
+    @NotNull
     private VertexSource vSource;
+
     @ManyToOne
     @JoinColumn(name = "shaderId")
+    @NotNull
     private FragmentSource fSource;
 
 

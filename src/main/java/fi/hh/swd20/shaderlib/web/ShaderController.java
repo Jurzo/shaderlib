@@ -2,11 +2,15 @@ package fi.hh.swd20.shaderlib.web;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,21 +51,39 @@ public class ShaderController {
     }
 
     @PostMapping(value = "/post/vertexshader", produces = "application/json", consumes = "application/json")
-    public VertexSource postVertex(@RequestBody VertexSource vertex) {
-        VertexSource saved = vertexRepository.save(vertex);
-        return saved;
+    public ResponseEntity<VertexSource> postVertex(@Valid @RequestBody VertexSource vertex, BindingResult bindingResult) {
+        HttpStatus status = HttpStatus.OK;
+        VertexSource resp = new VertexSource();
+        if (bindingResult.hasErrors()) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+        } else {
+            resp = vertexRepository.save(vertex);
+        }
+        return new ResponseEntity<>(resp, status);
     }
 
     @PostMapping(value = "/post/fragmentshader", produces = "application/json", consumes = "application/json")
-    public FragmentSource postFragment(@RequestBody FragmentSource fragment) {
-        FragmentSource saved = fragmentRepository.save(fragment);
-        return saved;
+    public ResponseEntity<FragmentSource> postFragment(@Valid @RequestBody FragmentSource fragment, BindingResult bindingResult) {
+        HttpStatus status = HttpStatus.OK;
+        FragmentSource resp = new FragmentSource();
+        if (bindingResult.hasErrors()) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+        } else {
+            resp = fragmentRepository.save(fragment);
+        }
+        return new ResponseEntity<>(resp, status);
     }
 
     @PostMapping(value = "/post/shader", produces = "application/json", consumes = "application/json")
-    public Shader postShader(@RequestBody Shader shader) {
-        Shader saved = shaderRepository.save(shader);
-        return saved;
+    public ResponseEntity<Shader> postShader(@Valid @RequestBody Shader shader, BindingResult bindingResult) {
+        HttpStatus status = HttpStatus.OK;
+        Shader resp = new Shader();
+        if (bindingResult.hasErrors()) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+        } else {
+            resp = shaderRepository.save(shader);
+        }
+        return new ResponseEntity<>(resp, status);
     }
 
 }

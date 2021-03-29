@@ -3,11 +3,14 @@ package fi.hh.swd20.shaderlib.domain;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,8 +18,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class VertexSource {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private long id;
+
+    @Column(length = 2000)
+    @NotNull
+    @Size(min = 10, max = 2000)
     private String source;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vSource")
     private List<Shader> shaders;

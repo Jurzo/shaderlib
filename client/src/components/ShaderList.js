@@ -4,9 +4,11 @@ const ShaderList = (props) => {
     const size = { width: 300, height: 300 };
 
     return (
-        <div style={{margin: 'auto', width:'50%'}}>
+        <div>
             {props.shaderList.map(shader =>
-                <div key={shader.id} style={{float:'left'}}>
+                <div key={shader.id} style={{cursor: 'pointer'}} onClick={() => {
+                    window.location.href='http://localhost:3000/shader/' + shader.id;
+                }}>
                     <CanvasComponent
                         resolution={size}
                         vertex={shader.vsource.source}

@@ -27,9 +27,6 @@ class AuthenticationService {
     async postData(data, dest) {
         const response = axios.post('http://localhost:8080' + '/post/' + dest,
             data, this.getAxiosConfig())
-            .catch(error => {
-              console.log(error);
-            });
         return response;
     }
 
@@ -92,7 +89,7 @@ class AuthenticationService {
     }
 
     isUserLoggedIn() {
-        let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        const user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
         if (user === null) {
             return false
         } else {
@@ -101,7 +98,7 @@ class AuthenticationService {
     }
 
     getLoggedInUserName() {
-        let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
+        const user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
         if (user === null) {
             return ''
         } else {

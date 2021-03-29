@@ -63,6 +63,14 @@ public class ShaderlibApplication {
 			fragmentRepository.save(frag2);
 			shaderRepository.save(shader);
 			shaderRepository.save(shader2);
+			shaderRepository.save(new Shader("red waves", vert1, frag1));
+			shaderRepository.save(new Shader("psychedelic", vert1, frag2));
+			shaderRepository.save(new Shader("red waves", vert1, frag1));
+			shaderRepository.save(new Shader("psychedelic", vert1, frag2));
+			shaderRepository.save(new Shader("red waves", vert1, frag1));
+			shaderRepository.save(new Shader("psychedelic", vert1, frag2));
+			shaderRepository.save(new Shader("red waves", vert1, frag1));
+			shaderRepository.save(new Shader("psychedelic", vert1, frag2));
 		};
 	}
 

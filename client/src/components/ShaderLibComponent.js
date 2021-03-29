@@ -64,9 +64,8 @@ const ShaderLibComponent = (props) => {
     }, []);
 
     return (
-        <div style={{width: props.resolution.width + 'px', margin:'auto'}}>
-            <h1 style={{textAlign:'center'}}>{name}</h1>
-            <button onClick={() => upload()}>save</button>
+        <div class="shader-lib-component">
+            <h1 style={{textAlign:'left'}}>{name}</h1>
             <CanvasComponent
                 resolution={props.resolution}
                 vertex={vertex}
@@ -82,6 +81,7 @@ const ShaderLibComponent = (props) => {
                 setSource={setVertex}
                 type={"vertex shader"}
             />
+            <button class="myButton" onClick={() => upload()}>save</button>
         </div>
     );
 

@@ -13,6 +13,24 @@ body {
 	color: #aaa;
 }
 
+.parent {
+	width: 100%
+	}
+	
+.div1 {
+	width: 80%;
+	margin: auto;
+	margin-bottom: 50px;
+}
+.div2 {
+	width: 80%;
+	margin: auto;
+	text-align: center;
+}
+.div3 {
+	grid-area: 6 / 2 / 7 / 7;
+}
+
 .simple-container {
 	max-width: 675px;
 	margin: 0 auto;
@@ -56,24 +74,26 @@ h3 {
 	line-height: 27px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	border-bottom: 1px solid #D8D8D8;
-	border-top: 1px solid #D8D8D8;
+	border-bottom: 1px solid #ffffff;
+	border-top: 1px solid #ffffff;
 }
 
 hr {
 	height: 1px;
-	background-color: #d8d8d8;
+	background-color: #ffffff;
 	border: none;
 	width: 100%;
 	margin: 0px;
 }
 
 a[href] {
-	color: #1e8ad6;
+	color: #ffffff;
+	text-decoration: none;
 }
 
 a[href]:hover {
-	color: #3ba0e6;
+	color: #ffffff;
+	text-decoration: none;
 }
 
 img {
@@ -97,4 +117,77 @@ aside,
 	body {
 		font-size: 18px;
 	}
+}
+
+.myButton {
+	box-shadow:inset 0px -3px 7px 0px #030303;
+	background-color:#1e3340;
+	border:1px solid #0b0e07;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Impact;
+	font-size:25px;
+	padding:29px 60px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #263666;
+}
+.myButton:hover {
+	background-color:#02182b;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.form-group {
+	width: 100%;
+	margin: auto;
+	margin-bottom: 30px;
+}
+
+.form-table {
+	width: 100%;
+}
+
+.form-control {
+	width: 300px;
+	height: 30px;
+	text-align: center;
+}
+
+.login-div {
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.navbar {
+	text-align: center;
+	margin: auto;
+	width: 100%;
+}
+
+.shader-list-element {
+	width: 200px;
+	height: 200px;
+	padding: 10px;
+	float: left;
+	margin: auto;
+}
+
+.shader-lib-component {
+	margin: auto;
+	width: 1000px;
+}
+
+.shader-lib-component .shader-list-element {
+	width: 1000px;
+	height: 1000px;
+	float: none;
+}
+
+.CodeMirror {
+	text-align: left;
 }
