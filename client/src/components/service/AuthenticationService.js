@@ -25,8 +25,13 @@ class AuthenticationService {
     }
 
     async postData(data, dest) {
-        const response = axios.post('http://localhost:8080' + '/post/' + dest,
+        const response = axios.post(API_URL + '/post/' + dest,
             data, this.getAxiosConfig())
+        return response;
+    }
+
+    async getData(url) {
+        const response = await fetch(API_URL + url);
         return response;
     }
 

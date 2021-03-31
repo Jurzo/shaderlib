@@ -13,7 +13,16 @@ const EditorComponent = (props) => {
 
     return (
         <div style={{height: '400px', marginBottom: '60px' ,marginTop: '20px'}}>
-            <h2 style={{ textAlign: 'left' }}>{type}</h2>
+            <table style={{margin: 'auto'}}>
+                <tr>
+                    <td>
+                        <h2 style={{ textAlign: 'left' }}>{type}</h2>
+                    </td>
+                    <td>
+                        <button style={{marginTop: '4px'}} class="updateButton" onClick={() => props.setSource(source)}>update</button>
+                    </td>
+                </tr>
+            </table>
             <CodeMirror
                 value={props.source}
                 onChange={(editor)=>setSource(editor.getValue())}
@@ -23,7 +32,6 @@ const EditorComponent = (props) => {
                     mode: 'c++',
                 }}
             />
-            <button class="updateButton" onClick={() => props.setSource(source)}>update</button>
         </div>
     );
 

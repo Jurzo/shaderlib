@@ -34,8 +34,8 @@ public class Shader {
     public Shader() {
         super();
         this.name = null;
-        this.fSource = null;
         this.vSource = null;
+        this.fSource = null;
     }
 
 

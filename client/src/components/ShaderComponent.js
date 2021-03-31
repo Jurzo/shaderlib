@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useFrame } from 'react-three-fiber';
 import * as THREE from 'three';
 
@@ -11,7 +11,7 @@ const ShaderComponent = (props) => {
     const vertex = props.vertex;
     
     const uniforms = {
-        u_time: { type: "f", value: 1.0 },
+        u_time: { type: "f", value: 0.0 },
         u_resolution: { type: "v2", value: new THREE.Vector2(props.resolution.width, props.resolution.height)},
         u_mouse: { type: "v2", value: new THREE.Vector2() }
     };
@@ -23,8 +23,10 @@ const ShaderComponent = (props) => {
         fragmentShader: fragment
     });
     
-    useFrame(() => {
+    useFrame(({mouse}) => {
         mesh.current.material.uniforms.u_time.value += 0.01;
+        mesh.current.material.uniforms.u_mouse.value.x = mouse.x;
+        mesh.current.material.uniforms.u_mouse.value.x = mouse.x;
     });
 
     return (

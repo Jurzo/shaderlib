@@ -6,10 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.util.FileCopyUtils;
-
 import fi.hh.swd20.shaderlib.domain.FragmentRepository;
 import fi.hh.swd20.shaderlib.domain.FragmentSource;
 import fi.hh.swd20.shaderlib.domain.Shader;
@@ -19,9 +15,13 @@ import fi.hh.swd20.shaderlib.domain.UserRepository;
 import fi.hh.swd20.shaderlib.domain.VertexRepository;
 import fi.hh.swd20.shaderlib.domain.VertexSource;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class ShaderlibApplication {
@@ -39,55 +39,48 @@ public class ShaderlibApplication {
 
 			// admin:admin, user:user
 			log.info("Create some users to database");
-			User user = new User("user", "user@domain", "$2b$10$f6ug1gn42FXc.S4MYNSxBO2o2HjMw4YD51408DxxQ2bferldEIxy6", "USER");
-			User admin = new User("admin", "admin@domain", "$2b$10$9so7Ic6Z5Nn1yPrMPeU5humBW6PMxJG573EgG9zHi7vi.KQbDPjAO", "ADMIN");
+			User user = new User("user", "user@domain", "$2b$10$f6ug1gn42FXc.S4MYNSxBO2o2HjMw4YD51408DxxQ2bferldEIxy6",
+					"USER");
+			User admin = new User("admin", "admin@domain",
+					"$2b$10$9so7Ic6Z5Nn1yPrMPeU5humBW6PMxJG573EgG9zHi7vi.KQbDPjAO", "ADMIN");
 			users.save(user);
 			users.save(admin);
 
-			VertexSource vert1 = new VertexSource(
-					"void main(){ \n" + 
-					"gl_Position = vec4( position, 1.0 );\n" +
-					"}");
+			VertexSource vert = new VertexSource("void main(){ \n" + "gl_Position = vec4( position, 1.0 );\n" + "}");
+			vertexRepository.save(vert);
 
-			String output = readFile("/shaders/redwaves.fs");
-			FragmentSource frag1 = new FragmentSource(output);
-
-			output = readFile("/shaders/psychedelic.fs");
-			FragmentSource frag2 = new FragmentSource(output);
-
-			Shader shader = new Shader("red waves", vert1, frag1);
-			Shader shader2 = new Shader("psychedelic", vert1, frag2);
-
-			vertexRepository.save(vert1);
-			fragmentRepository.save(frag1);
-			fragmentRepository.save(frag2);
-			shaderRepository.save(shader);
-			shaderRepository.save(shader2);
-			shaderRepository.save(new Shader("red waves", vert1, frag1));
-			shaderRepository.save(new Shader("psychedelic", vert1, frag2));
-			shaderRepository.save(new Shader("red waves", vert1, frag1));
-			shaderRepository.save(new Shader("psychedelic", vert1, frag2));
-			shaderRepository.save(new Shader("red waves", vert1, frag1));
-			shaderRepository.save(new Shader("psychedelic", vert1, frag2));
-			shaderRepository.save(new Shader("red waves", vert1, frag1));
-			shaderRepository.save(new Shader("psychedelic", vert1, frag2));
+			Map<String, String> data = readFiles();
+			for (String key : data.keySet()) {
+				FragmentSource frag = new FragmentSource(data.get(key));
+				fragmentRepository.save(frag);
+				Shader shader = new Shader(key, vert, frag);
+				shaderRepository.save(shader);
+			}
 		};
 	}
 
-	public String readFile(String filename) throws IOException {
-		String output = "";
-		Resource resource = new ClassPathResource(filename);
-		InputStream inputStream = resource.getInputStream();
-		try {
-			byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
-			String data = new String(bdata, StandardCharsets.UTF_8);
-			output = data;
-		} catch (IOException e) {
-			log.error("IOException", e);
-		} finally {
-			inputStream.close();
+	public Map<String, String> readFiles() throws IOException, URISyntaxException {
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		URL url = loader.getResource("shaderfolder");
+		String path = url.getPath();
+		File file = new File(path);
+		File[] listOfFiles = file.listFiles();
+
+		Map<String, String> shaders = new HashMap<>();
+
+		for (File f : listOfFiles) {
+			if (f.isFile()) {
+				String lines = "";
+				String filename = f.getName();
+				Scanner scanner = new Scanner(f);
+				while(scanner.hasNextLine()) {
+					lines += scanner.nextLine() + "\n";
+				}
+				scanner.close();
+				shaders.put(filename.split("\\.")[0], lines);
+			}
 		}
-		return output;
+		return shaders;
 	}
 
 }

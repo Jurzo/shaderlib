@@ -4,7 +4,7 @@ import 'codemirror/theme/monokai.css';
 import './App.css';
 import AuthenticationService from './components/service/AuthenticationService';
 import axios from 'axios';
-import { BrowserRouter as Router, Link, Redirect, Route } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
 import ShaderLibComponent from './components/ShaderLibComponent';
 import ShaderList from './components/ShaderList';
@@ -17,7 +17,8 @@ class App extends Component {
     isLoading: true,
     refreshPage: this.refreshPage,
     refresh: false,
-    shaderList: []
+    shaderList: [],
+    refreshList: this.refreshList
   }
 
   refreshPage = () => {
@@ -27,7 +28,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const response = await fetch('http://localhost:8080/shaders');
+    const response = await AuthenticationService.getData('/shaders');
     const body = await response.json();
     this.setState({ shaderList: body, isLoading: false });
     if (AuthenticationService.isUserLoggedIn()) {
@@ -50,7 +51,6 @@ class App extends Component {
         };
 
         const axiosConfig = AuthenticationService.getAxiosConfig();
-        console.log(axiosConfig);
 
         const url = API_URL + '/user/signout/';
 
@@ -74,23 +74,27 @@ class App extends Component {
         <Router>
           <div class="div1">
             <nav className="navbar">
+              <Link to="/"><button className="myButton">Home</button></Link>
+              <Link to="/shader/-1"><button className="myButton">New</button></Link>
+
               {AuthenticationService.isUserLoggedIn()
-                ? <button className="myButton" onClick={logout} >logout</button>
+                ? <button className="myButton" onClick={logout} >Logout</button>
                 : <Link to={{
-                  pathname: '/login',
-                  toggle: refreshPage
-                }}><button className="myButton">login</button></Link>}
+                    pathname: '/login',
+                    toggle: refreshPage}}>
+                    <button className="myButton">Login</button></Link>}
             </nav>
           </div>
           <div class="div2">
             <Route path="/login" component={Login} />
             <Route
               exact path="/"
-              render={(props) => <ShaderList shaderList={shaderList} />}
+              render={() => <ShaderList shaderList={shaderList} />}
             />
             <Route
-              path="/shader/:id"
-              render={(props) => <ShaderLibComponent shaderList={shaderList} resolution={{ width: 1000, height: 1000 }} />} />
+              path="/shader/:index"
+              render={() => <ShaderLibComponent shaderList={shaderList} resolution={{ width: 800, height: 800 }} />}
+            />
           </div>
         </Router>
 

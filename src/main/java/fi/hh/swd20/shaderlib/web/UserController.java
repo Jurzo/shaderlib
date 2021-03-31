@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@CrossOrigin(origins = { "*" })
+@CrossOrigin()
 public class UserController {
 
     @Autowired

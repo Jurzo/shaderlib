@@ -21,9 +21,9 @@ public class FragmentSource {
     @NotNull
     private long id;
 
-    @Column(length = 2000)
+    @Column(length = 4000)
     @NotNull
-    @Size(min = 10, max = 2000)
+    @Size(min = 10, max = 4000)
     private String source;
 
     @JsonIgnore
@@ -31,7 +31,24 @@ public class FragmentSource {
     private List<Shader> shaders;
 
     public FragmentSource() {
-        this.source = "";
+        this.source =
+        "#ifdef GL_ES\n" +
+        "precision mediump float;\n" +
+        "#endif\n" +
+        "\n" +
+        "uniform vec2 u_resolution;\n" +
+        "uniform vec2 u_mouse;\n" +
+        "uniform float u_time;\n" +
+        "\n" +
+        "void main() {\n" +
+        "    vec2 st = gl_FragCoord.xy/u_resolution.xy;\n" +
+        "    st.x *= u_resolution.x/u_resolution.y;\n" +
+        "\n" +
+        "    vec3 color = vec3(0.);\n" +
+        "    color = vec3(st.x,st.y,abs(sin(u_time)));\n" +
+        "\n" +
+        "    gl_FragColor = vec4(color,1.0);\n" +
+        "}";
     }
 
     public FragmentSource(String source) {

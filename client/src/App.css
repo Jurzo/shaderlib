@@ -120,6 +120,7 @@ aside,
 }
 
 .myButton {
+	border-radius: 0% 100% 0% 100% / 79% 21% 79% 21%;
 	box-shadow:inset 0px -3px 7px 0px #030303;
 	background-color:#1e3340;
 	border:1px solid #0b0e07;
@@ -131,11 +132,35 @@ aside,
 	padding:29px 60px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #263666;
+	transition-duration: 0.4s;
 }
 .myButton:hover {
 	background-color:#02182b;
 }
 .myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.myButton:focus {outline:0;}
+
+.updateButton {
+	box-shadow:inset 0px -3px 7px 0px #030303;
+	background-color:#1e3340;
+	border:1px solid #0b0e07;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Impact;
+	font-size:25px;
+	padding:10px 20px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #263666;
+}
+.updateButton:hover {
+	background-color:#02182b;
+}
+.updateButton:active {
 	position:relative;
 	top:1px;
 }
@@ -172,20 +197,27 @@ aside,
 .shader-list-element {
 	width: 200px;
 	height: 200px;
-	padding: 10px;
 	float: left;
-	margin: auto;
+	margin: 5px;
 }
 
 .shader-lib-component {
 	margin: auto;
-	width: 1000px;
+	width: 800px;
 }
 
 .shader-lib-component .shader-list-element {
-	width: 1000px;
-	height: 1000px;
+	width: 800px;
+	height: 800px;
 	float: none;
+}
+
+.shader-list-section {
+	cursor: pointer;
+	display: inline-block;
+}
+.shader-list-section:hover {
+	outline: 5px solid rgb(117, 117, 117);
 }
 
 .CodeMirror {
