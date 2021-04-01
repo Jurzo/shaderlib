@@ -46,11 +46,10 @@ public class ShaderlibApplication {
 			users.save(user);
 			users.save(admin);
 
-			VertexSource vert = new VertexSource("void main(){ \n" + "gl_Position = vec4( position, 1.0 );\n" + "}");
-			vertexRepository.save(vert);
-
 			Map<String, String> data = readFiles();
 			for (String key : data.keySet()) {
+				VertexSource vert = new VertexSource("void main(){ \n" + "gl_Position = vec4( position, 1.0 );\n" + "}");
+				vertexRepository.save(vert);
 				FragmentSource frag = new FragmentSource(data.get(key));
 				fragmentRepository.save(frag);
 				Shader shader = new Shader(key, vert, frag);

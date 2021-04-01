@@ -28,7 +28,11 @@ const ShaderLibComponent = (props) => {
             fsource: fragmentData,
             vsource: vertexData
         }
-        post(shaderData);
+        if (id === -1) {
+            postNew(shaderData);
+        } else {
+            post(shaderData);
+        }
     }
 
     const post = (shaderData) => {
@@ -39,6 +43,32 @@ const ShaderLibComponent = (props) => {
                 console.log(response.data);
 
                 AuthenticationService.postData(shaderData, 'shader').then(response => {
+                    console.log(response.data);
+                })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            })
+                .catch(error => {
+                    console.log(error);
+                });
+        })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const postNew = (shaderData) => {
+        let shader = shaderData;
+        AuthenticationService.postData(shader.vsource, 'vertexshader').then(response => {
+            shader.vsource.id= response.data.id;
+            console.log(shader);
+
+            AuthenticationService.postData(shader.fsource, 'fragmentshader').then(response => {
+                shader.fsource.id= response.data.id;
+                console.log(shader);
+
+                AuthenticationService.postData(shader, 'shader').then(response => {
                     console.log(response.data);
                 })
                     .catch(error => {
@@ -69,10 +99,10 @@ const ShaderLibComponent = (props) => {
                 .then(response => {
                     const shader = response;
                     setVertex(shader.vsource.source);
-                    setVertexId(shader.vsource.id);
                     setFragment(shader.fsource.source);
-                    setFragmentId(shader.fsource.id);
-                    setId(); // to not overwrite old shader
+                    setVertexId(-1);
+                    setFragmentId(-1);
+                    setId(-1); // to not overwrite old shader
                     setName(shader.name);
                 })
                 .catch(error => {

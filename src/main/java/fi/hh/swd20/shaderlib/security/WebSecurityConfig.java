@@ -24,8 +24,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/newshader", "/vertexshaders", "/shaders", "/api/**").permitAll()
-        .antMatchers(HttpMethod.POST, "/login", "/api/**", "/post/**").authenticated()
+        .antMatchers(HttpMethod.GET, "/vertexshaders", "/shaders", "/api/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/newshader").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/**", "/post/**").authenticated()
         .antMatchers(HttpMethod.OPTIONS).permitAll()
         .anyRequest().authenticated()
         .and()

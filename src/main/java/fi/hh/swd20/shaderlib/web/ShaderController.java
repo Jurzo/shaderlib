@@ -24,7 +24,7 @@ import fi.hh.swd20.shaderlib.domain.VertexSource;
 
 
 @RestController
-@CrossOrigin()
+@CrossOrigin("*")
 public class ShaderController {
 
     @Autowired
@@ -35,7 +35,6 @@ public class ShaderController {
     private FragmentRepository fragmentRepository;
     
     @GetMapping("/vertexshaders")
-    //@PreAuthorize("hasAuthority('USER')")
     public List<VertexSource> vertexList() {
         return (List<VertexSource>) vertexRepository.findAll();
     }
@@ -48,9 +47,7 @@ public class ShaderController {
     @GetMapping("/newshader")
     public Shader newFragment() {
         FragmentSource fragment = new FragmentSource();
-        fragmentRepository.save(fragment);
         VertexSource vert = new VertexSource("void main(){ \n" + "gl_Position = vec4( position, 1.0 );\n" + "}");
-        vertexRepository.save(vert);
         Shader shader = new Shader("New", vert, fragment);
         return shader;
     }
