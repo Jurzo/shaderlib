@@ -30,6 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.OPTIONS).permitAll()
         .anyRequest().authenticated()
         .and()
+        .formLogin().permitAll()
+            .loginPage("/signup")
+            .defaultSuccessUrl("/booklist", true)
+        .and()
+            .logout().permitAll()
+        .and()
         .httpBasic();
     }
     

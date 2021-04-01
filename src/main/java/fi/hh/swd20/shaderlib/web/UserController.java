@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@CrossOrigin()
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @GetMapping(value = "/login")
+    @GetMapping("/login")
     public ResponseEntity<LoginResult> login() {
 
         HttpStatus status = HttpStatus.OK;
@@ -36,12 +36,17 @@ public class UserController {
         return new ResponseEntity<>(loginResult, status);
     }
 
-    @PostMapping(value = "/user/signout")
+    @PostMapping("/user/signout")
     public ResponseEntity<LogoutResult> logout() {
 
         HttpStatus status = HttpStatus.OK;
         LogoutResult logoutResult = new LogoutResult();
 
         return new ResponseEntity<>(logoutResult, status);
+    }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "signupform";
     }
 }
