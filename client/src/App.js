@@ -29,7 +29,7 @@ class App extends Component {
 
   async componentDidMount() {
     const response = await AuthenticationService.getData('/shaders');
-    const body = await response.json();
+    const body = await response.data;
     this.setState({ shaderList: body, isLoading: false });
     if (AuthenticationService.isUserLoggedIn()) {
       AuthenticationService.reloadInterceptors();

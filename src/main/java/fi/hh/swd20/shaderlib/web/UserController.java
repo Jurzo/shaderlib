@@ -11,12 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@CrossOrigin("*")
 public class UserController {
 
     @Autowired
@@ -29,9 +27,9 @@ public class UserController {
         LoginResult loginResult = new LoginResult();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
+        String name = authentication.getName();
 
-        UserDetails user = userDetailsService.loadUserByUsername(currentPrincipalName);
+        UserDetails user = userDetailsService.loadUserByUsername(name);
         loginResult.setAuthorities(user.getAuthorities());
         return new ResponseEntity<>(loginResult, status);
     }
@@ -45,8 +43,8 @@ public class UserController {
         return new ResponseEntity<>(logoutResult, status);
     }
 
-    @GetMapping("/signup")
-    public String signup() {
+    @GetMapping("/signin")
+    public String signin() {
         return "signupform";
     }
 }

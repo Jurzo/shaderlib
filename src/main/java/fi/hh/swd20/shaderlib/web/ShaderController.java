@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +24,6 @@ import fi.hh.swd20.shaderlib.domain.VertexSource;
 
 
 @RestController
-@CrossOrigin("*")
 public class ShaderController {
 
     @Autowired
@@ -85,6 +84,22 @@ public class ShaderController {
         } else {
             resp = shaderRepository.save(shader);
         }
+        return new ResponseEntity<>(resp, status);
+    }
+
+    @DeleteMapping(value = "/post/shader", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<String> deleteShader(@Valid @RequestBody Shader shader, BindingResult bindingResult) {
+        HttpStatus status = HttpStatus.OK;
+        String resp = "Deletion successful";
+        if (bindingResult.hasErrors()) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            resp = "Invalid shader";
+        } else {
+            shaderRepository.deleteById(shader.getId());
+            vertexRepository.deleteById(shader.getVSource().getId());
+            fragmentRepository.deleteById(shader.getFSource().getId());
+        }
+        
         return new ResponseEntity<>(resp, status);
     }
 

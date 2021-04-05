@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Book List</title>
+    <title>Shaderlist Console</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
@@ -15,7 +15,7 @@
     <div th:if="${param.logout}">
         You have been logged out
     </div>
-    <form th:action="@{/signup}" method="post">
+    <form th:action="@{/signin}" method="post">
         <div><label> User Name: <input type="text" name="username" /> </label></div>
         <div><label> Password: <input type="password" name="password" /> </label></div>
         <div><input type="submit" value="Sign In" /></div>

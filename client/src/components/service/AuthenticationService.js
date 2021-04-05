@@ -31,7 +31,7 @@ class AuthenticationService {
     }
 
     async getData(url) {
-        const response = await fetch(API_URL + url);
+        const response = axios.get(API_URL + url, this.getAxiosConfig());
         return response;
     }
 

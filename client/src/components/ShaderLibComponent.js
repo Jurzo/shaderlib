@@ -95,8 +95,9 @@ const ShaderLibComponent = (props) => {
             setId(shader.id);
         } else {
             AuthenticationService.getData("/newshader")
-                .then(response => response.json())
+                .then(response => response.data)
                 .then(response => {
+                    console.log(response);
                     const shader = response;
                     setVertex(shader.vsource.source);
                     setFragment(shader.fsource.source);
