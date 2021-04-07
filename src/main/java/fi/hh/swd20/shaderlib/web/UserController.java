@@ -45,6 +45,11 @@ public class UserController {
 
     @GetMapping("/signin")
     public String signin() {
-        return "signupform";
+        return "signinform";
+    }
+
+    @GetMapping("/")
+    public String index() {
+        return "redirect:signin";
     }
 }

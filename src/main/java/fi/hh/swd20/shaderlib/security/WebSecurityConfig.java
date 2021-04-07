@@ -29,6 +29,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .cors()
         .and()
+        .authorizeRequests()
+        .antMatchers("/register", "/registration").permitAll()
+        .and()
+        .formLogin()
+            .loginPage("/signin")
+            .permitAll()
+            .defaultSuccessUrl("/dashboard", true)
+        .and()
+            .logout()
+            .logoutSuccessUrl("/signin")
+            .permitAll()
+        .and()
         .httpBasic()
         .and()
         .authorizeRequests()
@@ -38,14 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
         .antMatchers(HttpMethod.POST, "/api/**").hasAuthority("ADMIN")
         .antMatchers(HttpMethod.OPTIONS).permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .formLogin()
-            .loginPage("/signin")
-            .permitAll()
-            .defaultSuccessUrl("/dashboard", true)
-        .and()
-            .logout().permitAll();
+        .anyRequest().authenticated();
     }
 
     @Bean
