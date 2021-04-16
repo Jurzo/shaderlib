@@ -17,11 +17,13 @@
     <table class="table table-striped">
         <tr>
             <th>Name</th>
+            <th>Author</th>
             <th sec:authorize="hasAuthority('ADMIN')"></th>
         </tr>
 
         <tr th:each="shader : ${shaders}">
             <td th:text="${shader.name}"></td>
+            <td th:text="${shader.author}"></td>
             <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${shader.id})}"><button class="btn btn-danger">Delete</button></a></td>
         </tr>
     </table>

@@ -30,19 +30,26 @@ public class Shader {
     @NotNull
     private FragmentSource fSource;
 
+    private String author;
+
 
     public Shader() {
         super();
-        this.name = null;
+        this.name = "";
         this.vSource = null;
         this.fSource = null;
+        this.author = "-";
     }
 
-
-    public Shader(String name, VertexSource vSource, FragmentSource fSource) {
+    public Shader(String name, VertexSource vSource, FragmentSource fSource, String author) {
         this.name = name;
         this.vSource = vSource;
         this.fSource = fSource;
+        this.author = author;
+    }
+
+    public Shader(String name, VertexSource vSource, FragmentSource fSource) {
+        this(name, vSource, fSource, "-");
     }
 
     public long getId() {
@@ -51,6 +58,14 @@ public class Shader {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getName() {
@@ -79,7 +94,7 @@ public class Shader {
 
     @Override
     public String toString() {
-        return this.id + "-" + this.name + "\n" + this.vSource.toString() + this.fSource.toString();
+        return this.author + ": " + this.name + "\n" + this.vSource.toString() + this.fSource.toString();
     }
 
 

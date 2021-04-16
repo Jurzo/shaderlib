@@ -6,6 +6,8 @@ import fi.hh.swd20.shaderlib.domain.UserRepository;
 import fi.hh.swd20.shaderlib.web.result.LoginResult;
 import fi.hh.swd20.shaderlib.web.result.LogoutResult;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -67,19 +70,20 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String registerForm(Model model) {
+    public String registerForm(Model model, HttpServletRequest request) {
         model.addAttribute("user", new UserDto());
+        model.addAttribute("refer", request.getHeader("Referer"));
         return "registerform";
     }
 
     @PostMapping("/register")
-    public String registerSubmit(@ModelAttribute UserDto userDto) {
+    public String registerSubmit(@ModelAttribute UserDto userDto, @RequestParam String refer) {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         user.setRole("USER");
         user.setPasswordHash(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
-        return "redirect:signin";
+        return "redirect:"+refer;
     }
 }

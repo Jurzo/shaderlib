@@ -78,6 +78,7 @@ public class ShaderRestController {
     @PostMapping(value = "/post/shader", produces = "application/json", consumes = "application/json")
     public ResponseEntity<Shader> postShader(@Valid @RequestBody Shader shader, BindingResult bindingResult) {
         HttpStatus status = HttpStatus.OK;
+        System.out.println(shader);
         Shader resp = new Shader();
         if (bindingResult.hasErrors()) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;

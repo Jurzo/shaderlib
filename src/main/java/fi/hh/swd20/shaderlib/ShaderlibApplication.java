@@ -38,12 +38,9 @@ public class ShaderlibApplication {
 		return (args) -> {
 
 			// admin:admin, user:user
-			log.info("Create some users to database");
-			User user = new User("user", "user@domain", "$2b$10$f6ug1gn42FXc.S4MYNSxBO2o2HjMw4YD51408DxxQ2bferldEIxy6",
-					"USER");
-			User admin = new User("admin", "admin@domain",
-					"$2b$10$9so7Ic6Z5Nn1yPrMPeU5humBW6PMxJG573EgG9zHi7vi.KQbDPjAO", "ADMIN");
-			users.save(user);
+			log.info("Create admin user");
+			User admin = new User(System.getenv("adminUser"), "admin@domain",
+								System.getenv("adminPass"), "ADMIN");
 			users.save(admin);
 
 			Map<String, String> data = readFiles();
