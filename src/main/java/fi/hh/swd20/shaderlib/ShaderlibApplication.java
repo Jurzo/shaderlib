@@ -15,13 +15,17 @@ import fi.hh.swd20.shaderlib.domain.UserRepository;
 import fi.hh.swd20.shaderlib.domain.VertexRepository;
 import fi.hh.swd20.shaderlib.domain.VertexSource;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class ShaderlibApplication {
@@ -57,7 +61,14 @@ public class ShaderlibApplication {
 
 	public Map<String, String> readFiles() throws IOException, URISyntaxException {
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		URL url = loader.getResource("shaderfolder");
+		String content = "";
+		try (
+			InputStream inputStream = loader.getResourceAsStream("shaderfolder");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))
+			) {
+				content = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+		}
+		URL url = new URL(content);
 		String path = url.getPath();
 		File file = new File(path);
 		File[] listOfFiles = file.listFiles();
