@@ -7,6 +7,7 @@ import fi.hh.swd20.shaderlib.web.result.LoginResult;
 import fi.hh.swd20.shaderlib.web.result.LogoutResult;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,18 +73,27 @@ public class UserController {
     @GetMapping("/register")
     public String registerForm(Model model, HttpServletRequest request) {
         model.addAttribute("user", new UserDto());
-        model.addAttribute("refer", request.getHeader("Referer"));
+        model.addAttribute("refer", request.getHeader("Referer").split("\\?")[0]);
         return "registerform";
     }
 
     @PostMapping("/register")
-    public String registerSubmit(@ModelAttribute UserDto userDto, @RequestParam String refer) {
+    public String registerSubmit(@ModelAttribute UserDto userDto,
+                                @RequestParam(name="refer", required = false, defaultValue = "signin") String refer,
+                                Model model) {
         User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setRole("USER");
-        user.setPasswordHash(passwordEncoder.encode(userDto.getPassword()));
-        userRepository.save(user);
-        return "redirect:"+refer;
+        if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
+            model.addAttribute("user", userDto);
+            model.addAttribute("refer", refer);
+            model.addAttribute("err", "Username taken");
+            return "registerform";
+        } else {
+            user.setUsername(userDto.getUsername());
+            user.setEmail(userDto.getEmail());
+            user.setRole("USER");
+            user.setPasswordHash(passwordEncoder.encode(userDto.getPassword()));
+            userRepository.save(user);
+            return "redirect:" + refer;
+        }
     }
 }
