@@ -68,8 +68,8 @@ public class ShaderlibApplication {
 			) {
 				content = reader.lines().collect(Collectors.joining(System.lineSeparator()));
 		}
-		URL url = new URL(content);
-		String path = url.getPath();
+		System.out.println(content + "-----------------");
+		String path = content;
 		File file = new File(path);
 		File[] listOfFiles = file.listFiles();
 
