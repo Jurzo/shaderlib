@@ -63,7 +63,7 @@ public class ShaderlibApplication {
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		String content = "";
 		try (
-			InputStream inputStream = loader.getResourceAsStream("shaderfolder");
+			InputStream inputStream = loader.getResourceAsStream("resources/shaderfolder/checkers.fs");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))
 			) {
 				content = reader.lines().collect(Collectors.joining(System.lineSeparator()));
