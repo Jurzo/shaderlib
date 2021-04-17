@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import fi.hh.swd20.shaderlib.domain.Shader;
 import fi.hh.swd20.shaderlib.domain.ShaderRepository;
 
 @Controller
@@ -29,10 +30,14 @@ public class ShaderController {
         return "dashboard";
     }
 
-    @GetMapping("delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public String deleteBook(@PathVariable("id") Long id) {
-        shaderRepository.deleteById(id);
+        String user = SecurityContextHolder.getContext().getAuthentication().getName();
+        Shader shader = shaderRepository.findById(id).get();
+        if (user.equals("admin") || user.equals(shader.getAuthor())) {
+            shaderRepository.deleteById(id);
+        }
         return "redirect:../dashboard";
     }
 }

@@ -32,7 +32,7 @@ public class VertexSource {
 
 
     public VertexSource() {
-        this.source = "";
+        this.source = "void main(){ \n" + "gl_Position = vec4( position, 1.0 );\n" + "}";
     }
 
     public VertexSource(String source) {

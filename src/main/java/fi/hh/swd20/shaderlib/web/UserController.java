@@ -7,7 +7,6 @@ import fi.hh.swd20.shaderlib.web.result.LoginResult;
 import fi.hh.swd20.shaderlib.web.result.LogoutResult;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,7 +72,11 @@ public class UserController {
     @GetMapping("/register")
     public String registerForm(Model model, HttpServletRequest request) {
         model.addAttribute("user", new UserDto());
-        model.addAttribute("refer", request.getHeader("Referer").split("\\?")[0]);
+        String referer = "signin";
+        if (request.getHeader("Referer") != null) {
+            referer = request.getHeader("Referer").split("\\?")[0];
+        }
+        model.addAttribute("refer", referer);
         return "registerform";
     }
 
