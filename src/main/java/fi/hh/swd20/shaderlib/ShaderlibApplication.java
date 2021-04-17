@@ -16,12 +16,15 @@ import fi.hh.swd20.shaderlib.domain.VertexRepository;
 import fi.hh.swd20.shaderlib.domain.VertexSource;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
@@ -44,7 +47,12 @@ public class ShaderlibApplication {
 								System.getenv("adminPass"), "ADMIN");
 			users.save(admin);
 
-			Map<String, String> data = readFiles();
+			Map<String, String> data;
+			if (System.getenv("platform").equals("local")) {
+				data = readFilesLocal();
+			} else {
+				data = readFiles();
+			}
 			for (String key : data.keySet()) {
 				VertexSource vert = new VertexSource("void main(){ \n" + "gl_Position = vec4( position, 1.0 );\n" + "}");
 				vertexRepository.save(vert);
@@ -75,6 +83,28 @@ public class ShaderlibApplication {
 			shaders.put(filename, content);
 		}
 		
+		return shaders;
+	}
+
+	public Map<String, String> readFilesLocal() throws IOException, URISyntaxException {
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		URL url = loader.getResource("shaderfolder");
+		String path = url.getPath();
+		File file = new File(path);
+		File[] listOfFiles = file.listFiles();
+		Map<String, String> shaders = new HashMap<>();
+		for (File f : listOfFiles) {
+			if (f.isFile()) {
+				String lines = "";
+				String filename = f.getName();
+				Scanner scanner = new Scanner(f);
+				while(scanner.hasNextLine()) {
+					lines += scanner.nextLine() + "\n";
+				}
+				scanner.close();
+				shaders.put(filename.split("\\.")[0], lines);
+			}
+		}
 		return shaders;
 	}
 
