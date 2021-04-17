@@ -61,7 +61,7 @@ public class ShaderlibApplication {
 
 	public Map<String, String> readFiles() throws IOException, URISyntaxException {
 		String content = "";
-        try (InputStream inputStream = getClass().getResourceAsStream("checkers.fs");
+        try (InputStream inputStream = getClass().getResourceAsStream("shaderfolder/checkers.fs");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             content = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         }
