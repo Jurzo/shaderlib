@@ -72,7 +72,7 @@ public class ShaderlibApplication {
 				content = reader.lines().collect(Collectors.joining(System.lineSeparator()));
 			}
 			
-			shaders.put("checkers", content);
+			shaders.put(filename, content);
 		}
 		
 		return shaders;
