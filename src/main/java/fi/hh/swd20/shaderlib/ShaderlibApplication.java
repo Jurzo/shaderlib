@@ -60,15 +60,23 @@ public class ShaderlibApplication {
 	}
 
 	public Map<String, String> readFiles() throws IOException, URISyntaxException {
-		String content = "";
-        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("shaderfolder/checkers.fs");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            content = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-        }
-
 		Map<String, String> shaders = new HashMap<>();
-		
-		shaders.put("checkers", content);
+		String shaderFiles[] = {"checkers.fs",
+								"circle.fs",
+								"colorfulwaves.fs",
+								"cubes.fs",
+								"fractal cube.fs",
+								"psychedelic.fs",
+								"redwaves.fs"};
+		for (String filename : shaderFiles) {
+			String content = "";
+			try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("shaderfolder/" + filename);
+					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+				content = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+			}
+			
+			shaders.put("checkers", content);
+		}
 		
 		return shaders;
 	}
