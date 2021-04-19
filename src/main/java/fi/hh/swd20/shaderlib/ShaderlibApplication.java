@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import fi.hh.swd20.shaderlib.domain.FragmentRepository;
 import fi.hh.swd20.shaderlib.domain.FragmentSource;
 import fi.hh.swd20.shaderlib.domain.Shader;
@@ -38,17 +40,17 @@ public class ShaderlibApplication {
 
 	@Bean
 	public CommandLineRunner demo(VertexRepository vertexRepository, FragmentRepository fragmentRepository,
-			ShaderRepository shaderRepository, UserRepository users) {
+			ShaderRepository shaderRepository, UserRepository users, PasswordEncoder passwordEncoder) {
 		return (args) -> {
 
 			// admin:admin, user:user
 			log.info("Create admin user");
-			User admin = new User(System.getenv("adminUser"), "admin@domain",
-								System.getenv("adminPass"), "ADMIN");
+			User admin = new User(System.getenv("ADMIN_USER"), "admin@domain",
+								passwordEncoder.encode(System.getenv("ADMIN_PASS")), "ADMIN");
 			users.save(admin);
 
 			Map<String, String> data;
-			if (System.getenv("platform").equals("local")) {
+			if (System.getenv("PLATFORM").equals("local")) {
 				data = readFilesLocal();
 			} else {
 				data = readFiles();
