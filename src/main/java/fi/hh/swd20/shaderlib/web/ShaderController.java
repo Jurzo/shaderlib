@@ -27,6 +27,7 @@ public class ShaderController {
             String currentPrincipalName = authentication.getName();
             model.addAttribute("shaders", shaderRepository.findByAuthor(currentPrincipalName));
         }
+        model.addAttribute("frontend", System.getenv("FRONT_END_URL"));
         return "dashboard";
     }
 
